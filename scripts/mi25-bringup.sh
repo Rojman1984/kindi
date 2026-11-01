@@ -55,12 +55,13 @@ drun() {   # drun IDX [docker args...] -- kindi args...
 case "${1:-check}" in
 check)
   say "ROCm GPU agents (index bus gfx VRAM-MiB)"; gpu_table
-  say "Cards that KFD skipped (Vega 10 needs PCIe atomics from its root port; chipset/x1 paths may refuse them)"
-  sudo dmesg | grep -i -E 'kfd.*(skipped|atomic)|PCI rejects atomics' || echo "none reported"
-  say "PCIe links and AtomicOp routing of each AMD card"
-  for d in $(lspci -D -d 1002: | awk '/(VGA|Display|3D|Processing)/{print $1}'); do
-    echo "-- $d $(lspci -s "$d" | cut -d: -f3-)"
-    sudo lspci -vvv -s "$d" | grep -E 'LnkSta:|AtomicOpsCtl|AtomicOpsCap' | sed 's/^\s*/   /'
+  say "Cards that KFD skipped (Vega 10 needs PCIe atomics; chipset/x1 paths may refuse them)"
+  { sudo -n dmesg 2>/dev/null || journalctl -k -b --no-pager 2>/dev/null; } | grep -i -E 'kfd.*(skipped|atomic)|rejects atomics' \
+    || echo "none reported (or kernel log not readable without sudo)"
+  say "PCIe link of each AMD GPU (current / max)"
+  for d in $(lspci -D -d 1002: | awk '/VGA|Display|3D|Processing/{print $1}'); do
+    s=/sys/bus/pci/devices/$d
+    echo "$d $(cat $s/current_link_speed) x$(cat $s/current_link_width) / $(cat $s/max_link_speed) x$(cat $s/max_link_width)  $(lspci -s "$d" | cut -d: -f3- | cut -c1-60)"
   done
   say "amdgpu / docker"; uname -r; docker --version; ls -l /dev/kfd
   ;;
