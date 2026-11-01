@@ -3,8 +3,10 @@
 #ifndef KHIP   /* KINDI-PORT-BEGIN */
 #if defined(__HIPCC_RTC__) || defined(__HIP_DEVICE_COMPILE__) || defined(__HIP_PLATFORM_AMD__)
 #define KHIP 1
-#define KSHFLX(v, o) __shfl_xor((v), (o))
-#define KSHFL(v, l) __shfl((v), (l))
+/* width 32: Kindi's kernels are written for 32-lane warps. On wave64 GPUs (GCN/CDNA: gfx900 MI25, gfx906 MI50)
+   each 64-lane wave holds two of them, and a lane index must stay inside its own half. */
+#define KSHFLX(v, o) __shfl_xor((v), (o), 32)
+#define KSHFL(v, l) __shfl((v), (l), 32)
 #else
 #define KHIP 0
 #define KSHFLX(v, o) __shfl_xor_sync(0xffffffffu, (v), (o))
@@ -1894,8 +1896,10 @@ extern "C" __global__ void __launch_bounds__(512) k_g5r1(const unsigned int* __r
 /* dp4a as inline PTX: NVRTC 10.2 does not define the __dp4a intrinsic (sm_61_intrinsics are not included) */
 __device__ __forceinline__ int kdp4a(int a, int b, int c){
   /* dp4a.s32.s32: four SIGNED int8 x int8 products added to c */
-#if KHIP
+#if KHIP && (defined(__GFX11__) || defined(__GFX12__))
   return __builtin_amdgcn_sudot4(true, a, true, b, c, false);    /* v_dot4_i32_iu8, both operands signed, no clamp */
+#elif KHIP && (defined(__gfx906__) || defined(__gfx908__) || defined(__gfx90a__))
+  return __builtin_amdgcn_sdot4(a, b, c, false);                 /* v_dot4_i32_i8 (Vega 20 / CDNA) */
 #elif defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 610
   int d; asm("dp4a.s32.s32 %0, %1, %2, %3;" : "=r"(d) : "r"(a), "r"(b), "r"(c)); return d;
 #else

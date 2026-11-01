@@ -6,7 +6,10 @@
 #   docker run -d --name kindi --device /dev/kfd --device /dev/dri --group-add video --group-add render \
 #       --security-opt seccomp=unconfined -e HSA_OVERRIDE_GFX_VERSION=11.0.2 \
 #       -p 127.0.0.1:8093:8093 -v $HOME/.kindi:/data kindi-rocm:0.3.0
-FROM rocm/dev-ubuntu-24.04:6.3.3
+# MI25 / MI50 (gfx900 / gfx906, wave64): build with --build-arg AMDGPU_TARGETS=gfx900 (see docs/MI25.md)
+ARG ROCM_IMAGE=rocm/dev-ubuntu-24.04:6.3.3
+FROM ${ROCM_IMAGE}
+ARG AMDGPU_TARGETS="gfx1100,gfx1101,gfx1102"
 
 ENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 LC_ALL=C.UTF-8 PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1
 # the ROCm math libraries that CuPy builds against (the versions of the ROCm 6.3.3 base image)
@@ -17,7 +20,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends python3 python3
 
 # CuPy built for ROCm (HIP). The GPU code that Kindi runs is compiled at run time by hipRTC; the targets below are
 # for CuPy's own precompiled parts (RDNA3; comma-separated, because CuPy passes the list through a shell).
-ENV ROCM_HOME=/opt/rocm CUPY_INSTALL_USE_HIP=1 HCC_AMDGPU_TARGET="gfx1100,gfx1101,gfx1102"
+ENV ROCM_HOME=/opt/rocm CUPY_INSTALL_USE_HIP=1 HCC_AMDGPU_TARGET=${AMDGPU_TARGETS}
 RUN python3 -m venv /opt/venv \
     && /opt/venv/bin/pip install --no-cache-dir "setuptools==84.2.1" "wheel==0.48.0" "Cython==3.3.0" "fastrlock==0.8.4" "numpy==2.5.4" \
     && /opt/venv/bin/pip install --no-cache-dir --no-build-isolation "cupy==14.2.0" \

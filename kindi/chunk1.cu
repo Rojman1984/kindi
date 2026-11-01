@@ -3,8 +3,10 @@
 #ifndef KHIP   /* KINDI-PORT-BEGIN */
 #if defined(__HIPCC_RTC__) || defined(__HIP_DEVICE_COMPILE__) || defined(__HIP_PLATFORM_AMD__)
 #define KHIP 1
-#define KSHFLX(v, o) __shfl_xor((v), (o))
-#define KSHFL(v, l) __shfl((v), (l))
+/* width 32: Kindi's kernels are written for 32-lane warps. On wave64 GPUs (GCN/CDNA: gfx900 MI25, gfx906 MI50)
+   each 64-lane wave holds two of them, and a lane index must stay inside its own half. */
+#define KSHFLX(v, o) __shfl_xor((v), (o), 32)
+#define KSHFL(v, l) __shfl((v), (l), 32)
 #else
 #define KHIP 0
 #define KSHFLX(v, o) __shfl_xor_sync(0xffffffffu, (v), (o))
