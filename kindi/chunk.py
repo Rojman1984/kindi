@@ -20,6 +20,7 @@ import re
 import numpy as np
 import cupy as cp
 
+from . import gpudrv as _gpudrv
 from . import tp as _tp
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -115,7 +116,8 @@ def reserve(eng):
             c["GB"], c["GG"] = z(T * s.NV), z(T * s.NV)
             c["QQ"], c["QD"] = cp.zeros(T * s.NH * HD, dtype=cp.int8), z(T * s.NH * HD // 32)
             prop = cp.cuda.runtime.getDeviceProperties(s.card)
-            c["q8"] = os.environ.get("KINDI_CHUNK_Q8", "1") == "1" and prop["major"] * 10 + prop["minor"] >= 61
+            q8_def = "0" if _gpudrv.wave64_no_dot(s.card) else "1"      # no hardware dp4a: the fp32 products are faster
+            c["q8"] = os.environ.get("KINDI_CHUNK_Q8", q8_def) == "1" and prop["major"] * 10 + prop["minor"] >= 61
             if c["q8"] and not ctc:   # int8 activations (dp4a): XQ[k4][t], XS[group][t]
                 c["XQ"], c["XS"] = cp.zeros(T * work // 4, dtype=cp.uint32), z(T * work // 128)
             c["tc"] = ctc                               # tc layout (spec.py): tensor-core GEMMs, XQ in the tc order

@@ -24,6 +24,7 @@ import time
 import numpy as np
 import cupy as cp
 
+from . import gpudrv
 from . import hostram
 from . import layout
 from .engine import Kernels, DEFAULT_DIMS, VOCAB
@@ -240,7 +241,8 @@ class Shard(object):
             g5 = os.environ.get("KINDI_G5", "")
             self.g5 = g5 == "1" or (g5 != "0" and prop["major"] >= 6)
             # lane-owned tables (k_g5n4); on HIP the row kernels (k_g5r*) decode ~20% faster (780M, 27B)
-            self.g5l = self.g5 and os.environ.get("KINDI_G5L", "0" if rt.is_hip and os.environ.get("KINDI_TC", "0") != "1" else "1") == "1"
+            g5l_def = "0" if rt.is_hip and os.environ.get("KINDI_TC", "0") != "1" and not gpudrv.wave64_no_dot(card) else "1"
+            self.g5l = self.g5 and os.environ.get("KINDI_G5L", g5l_def) == "1"
             self.dp4a = prop["major"] * 10 + prop["minor"] >= 61 and os.environ.get("KINDI_DP4A", "1" if rt.is_hip else "0") == "1"   # dp4a scores: slower than the float path at long context on the 1080 (measured), off by default
             self._load()
             self._alloc_fixed()

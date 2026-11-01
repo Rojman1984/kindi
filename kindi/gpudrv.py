@@ -99,3 +99,24 @@ def driver():
     if _drv[0] is None:
         _drv[0] = _HipAsCuda() if HIP else ctypes.CDLL("libcuda.so.1")
     return _drv[0]
+
+
+def gcn_arch(card=None):
+    """the AMD GPU's architecture ("gfx900", "gfx1103", ...) on ROCm; "" on NVIDIA or when it cannot be read"""
+    if not HIP:
+        return ""
+    try:
+        p = cp.cuda.runtime.getDeviceProperties(cp.cuda.Device().id if card is None else card)
+        a = p.get("gcnArchName", b"")
+        a = a.decode() if isinstance(a, bytes) else str(a)
+        return a.split(":")[0]
+    except Exception:
+        return ""
+
+
+def wave64_no_dot(card=None):
+    """GCN / Vega 10 (gfx8xx, gfx900): wave64 and no packed int8 dot instruction. Measured on the MI25 (27B, 2K prompt):
+    the lane-table weights (KINDI_G5L=1, which also turns on the chunked prompt path) and the fp32 chunk products
+    (KINDI_CHUNK_Q8=0) give prefill 67 tok/s and decode 15.1 tok/s, against 12.3 / 11.8 with the RDNA3 defaults."""
+    a = gcn_arch(card)
+    return a.startswith("gfx8") or a == "gfx900"
