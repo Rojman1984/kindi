@@ -1,0 +1,29 @@
+### prism bench Sun Nov  1 02:18:16 PM CST 2026
+commit: 5628c7338 prism-b12128-d7b2896-2-g5628c7338
+card: 0000:12:00.0 -> Vulkan index 1 (GGML_VK_VISIBLE_DEVICES=1, so it is Vulkan0 inside llama-bench)
+ggml_vulkan: Found 1 Vulkan devices:
+load_backend: loaded Vulkan backend from /home/roland/mi25/llama.cpp-prism/build/bin/libggml-vulkan.so
+load_backend: loaded Vulkan backend from /home/roland/mi25/llama.cpp-prism/build/bin/libggml-vulkan.so
+  Vulkan0: AMD Radeon Graphics (RADV VEGA10) (16368 MiB, 16360 MiB free)
+| model                          |       size |     params | backend    | ngl | type_k | type_v |  fa | dev          |         lm |            test |                  t/s |
+| ------------------------------ | ---------: | ---------: | ---------- | --: | -----: | -----: | --: | ------------ | ---------: | --------------: | -------------------: |
+| qwen35 27B PTQ1_0 - 1.75 bpw ternary (group 128) |   5.53 GiB |    26.90 B | Vulkan     |  99 |   q8_0 |   q8_0 |   1 | Vulkan0      |       none |           pp512 |         73.98 ± 0.12 |
+| qwen35 27B PTQ1_0 - 1.75 bpw ternary (group 128) |   5.53 GiB |    26.90 B | Vulkan     |  99 |   q8_0 |   q8_0 |   1 | Vulkan0      |       none |          pp2048 |         73.34 ± 0.08 |
+| qwen35 27B PTQ1_0 - 1.75 bpw ternary (group 128) |   5.53 GiB |    26.90 B | Vulkan     |  99 |   q8_0 |   q8_0 |   1 | Vulkan0      |       none |          pp8192 |         71.13 ± 0.03 |
+| qwen35 27B PTQ1_0 - 1.75 bpw ternary (group 128) |   5.53 GiB |    26.90 B | Vulkan     |  99 |   q8_0 |   q8_0 |   1 | Vulkan0      |       none |            tg64 |         10.32 ± 0.02 |
+
+build: 5628c7338 (12130)
+### decode at depth 2048 (matches Kindi's measurement point)
+| model                          |       size |     params | backend    | ngl | type_k | type_v |  fa | dev          |         lm |            test |                  t/s |
+| ------------------------------ | ---------: | ---------: | ---------- | --: | -----: | -----: | --: | ------------ | ---------: | --------------: | -------------------: |
+| qwen35 27B PTQ1_0 - 1.75 bpw ternary (group 128) |   5.53 GiB |    26.90 B | Vulkan     |  99 |   q8_0 |   q8_0 |   1 | Vulkan0      |       none |    tg64 @ d2048 |         10.13 ± 0.01 |
+
+build: 5628c7338 (12130)
+### kindi (gfx900 defaults, fbc0525) 14:34:51
+kindi N=512 launch 1: 
+kindi N=512 launch 2: 
+kindi N=512 launch 3: 
+kindi N=8192 launch 1: prefill_tps 64.64 decode_tps 14.816
+kindi N=8192 launch 2: prefill_tps 64.69 decode_tps 14.883
+kindi N=8192 launch 3: prefill_tps 64.69 decode_tps 14.937
+### done Sun Nov  1 02:49:34 PM CST 2026

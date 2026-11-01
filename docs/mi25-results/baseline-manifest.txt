@@ -1,0 +1,24 @@
+# Baseline manifest: mi25-gfx900-bonsai27b-baseline-2026-11-01
+date: 2026-11-01T11:57:16-06:00
+commit: fbc0525f57620344f4a23d75a118fda3076f098c (gfx900 defaults: lane-table weights (chunked prefill on) and fp32 chunk products)
+image: kindi-rocm:mi25 sha256:5f82abfa2f421f275c036de8635f94d8da09827a6fa398b2e120cff1dae23353 created 2026-11-01T11:09:36.249217249-06:00
+image_code_note: image holds pre-fbc0525 Python; baseline runs mount the repo's kindi/ (SRC=$HOME/kindi)
+rocm: 6.3.3-74
+cupy: 14.2.0
+host: designlabsrvr kernel 7.0.0-38-generic; AMD Ryzen 5 4600G with Radeon Graphics; RAM 57 GiB
+gguf_sha256:
+  53107f530aa52eb00912263ab1ee29bd199261c87cd7b4ad4ca1318c1fe33ee3  Ternary-Bonsai-2-27B-PTQ1_0.gguf
+  36061ad406df8a4903a6db005be350c50fabfaf717f9ef0acf4b76adcd9929fa  Ternary-Bonsai-2-2B-PTQ1_0.gguf
+pack27b_sha256 (sorted file hashes, then hashed):
+  385a09edeed3d195173fd2a5c060484868ce7666d18ec5f00a24541fdbff5f0e  (18G, 14 files)
+env (gfx900 defaults, no flags needed at fbc0525): KINDI_G5L=1 KINDI_CHUNK_Q8=0 KINDI_DP4A=default(1) KINDI_HEAD=exact KINDI_CARDS=1 KINDI_BLOCKING_SYNC=0
+card: 0000:12:00.0 (CPU x16 slot, ROCm agent 0) unique_id=0213f5498aa01884 vbios=113-D0513500-S00
+power_cap_w: 110  dpm_level: auto
+pcie_path:
+  0000:12:00.0 x16 8.0 GT/s PCIe
+  0000:11:00.0 x16 8.0 GT/s PCIe
+  0000:10:00.0 x16 8.0 GT/s PCIe
+  0000:00:01.1 x16 8.0 GT/s PCIe
+other_gpus: 0000:24:00.0, 0000:27:00.0 (MI25, chipset x1); 0000:30:00.0 (4600G iGPU, gfx90c, unused)
+verify: 27B 4/4 token-exact (logs/defaults.log); 2B 4/4 (logs/verify.log)
+bench: 2,048-token prompt + 64 decode, 5 rounds x 6 configs rotated: logs/sweep.csv

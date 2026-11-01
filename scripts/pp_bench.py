@@ -6,7 +6,7 @@ import cupy as cp
 from kindi.engine import make_engine
 N = int(sys.argv[1]) if len(sys.argv) > 1 else 2048
 G = int(sys.argv[2]) if len(sys.argv) > 2 else 64
-eng = make_engine(os.environ["KINDI_PACK"], ctx=N + G + 256, log=lambda *a: print(*a, flush=True))
+eng = make_engine(os.environ["KINDI_PACK"], ctx=max(N + G + 256, 2048), log=lambda *a: print(*a, flush=True))   # Kindi needs ctx >= 1024
 print("chunk path:", getattr(eng, "chunk_ok", False), "| g5l:", [getattr(s, "g5l", None) for s in getattr(eng, "cards", [])],
       "| dp4a:", [getattr(s, "dp4a", None) for s in getattr(eng, "cards", [])], flush=True)
 rng = np.random.default_rng(0)

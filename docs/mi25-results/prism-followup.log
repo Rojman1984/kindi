@@ -1,0 +1,14 @@
+### kindi N=512 14:49:42
+kindi N=512 launch 1: prefill_tps 67.41 decode_tps 14.006
+kindi N=512 launch 2: prefill_tps 67.50 decode_tps 15.151
+kindi N=512 launch 3: prefill_tps 67.52 decode_tps 15.150
+### prism tg64 @ d2048, separate launches (Vulkan index 1 = 0000:12:00.0) 14:51:44
+prism launch 1: tg64@d2048 10.156528 tok/s
+prism launch 2: tg64@d2048 10.139166 tok/s
+prism launch 3: tg64@d2048 10.135895 tok/s
+prism launch 4: tg64@d2048 10.147507 tok/s
+prism launch 5: tg64@d2048 10.163798 tok/s
+prism launch 6: tg64@d2048 10.140983 tok/s
+prism launch 7: tg64@d2048 10.154229 tok/s
+prism launch 8: tg64@d2048 10.169224 tok/s
+### done Sun Nov  1 02:57:23 PM CST 2026

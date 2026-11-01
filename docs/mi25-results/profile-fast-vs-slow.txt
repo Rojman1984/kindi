@@ -1,0 +1,33 @@
+FAST p1: 15.218 tok/s, window 4205.5 ms, 83203 kernels, GPU busy 4182.2 ms (99.4%)
+SLOW p4: 14.339 tok/s, window 4463.4 ms, 83204 kernels, GPU busy 4438.7 ms (99.4%)
+idle (window - busy): fast 23.4 ms, slow 24.7 ms
+
+kernel                                                          n_f    n_s    fast_ms    slow_ms     d_ms   ratio  grid/block
+k_g5n4                                                        25664  25664    3278.71    3575.84   297.13   1.091  124160x1/256,2560x8/256,3072x8/256,5120x
+k_deq_emb4                                                       64     64       1.24       1.20    -0.05   0.960  2560x1/512
+k_rope2                                                        1024   1024       5.37       5.16    -0.21   0.961  7168x1/256
+k_store_q8                                                     1024   1024       5.36       5.14    -0.22   0.960  2048x1/1024
+k_q8row                                                        1024   1024       5.32       5.10    -0.22   0.958  6144x1/1024
+k_rmsw_s                                                       1024   1024      11.98      11.55    -0.43   0.964  768x1/256
+k_rmsw                                                         1024   1024      11.75      11.31    -0.44   0.963  256x1/256
+k_argmax                                                         64     64      12.51      12.03    -0.48   0.962  1024x1/1024
+k_fold_fwht                                                    1024   1024      12.40      11.88    -0.51   0.959  3072x1/512
+k_attn_combn                                                   1024   1024       8.67       8.09    -0.58   0.934  6144x1/256
+k_softmax_rows                                                 1024   1024      12.50      11.22    -1.28   0.898  6144x1/256
+k_attn_vq8w                                                    1024   1024      43.84      42.04    -1.80   0.959  512x1/128
+k_attn_sq8d                                                    1024   1024      55.81      53.77    -2.03   0.964  1024x8/256
+k_gdn_deltan                                                   3072   3072     107.18     103.76    -3.41   0.968  6144x1/128
+k_sumparts                                                    25600  25600     240.20     236.21    -3.99   0.983  10240x1/256,1024x1/256,12288x1/256,17408
+k_smfold                                                       7168   7168     113.28     108.59    -4.69   0.959  3072x1/512,8704x1/512
+k_gdn_pre                                                      3072   3072      62.03      54.28    -7.75   0.875  26624x1/256
+k_rmsfold                                                      8256   8256     193.96     181.36   -12.59   0.935  2560x1/512
+
+allocations >= 1 MiB: order, size, ptr%2MiB (MiB), ptr%64KiB, and ptr delta vs first allocation
+p1 (15.218 tok/s): 66 allocs, 5672 MiB; >=64MiB: 1; not 2MiB-aligned: 0 of 66; base 0x72b416c00000
+   #0       5340.2 MiB  off2M  0.000  off64K      0  +0x0
+p4 (14.339 tok/s): 66 allocs, 5672 MiB; >=64MiB: 1; not 2MiB-aligned: 0 of 66; base 0x79d30c000000
+   #0       5340.2 MiB  off2M  0.000  off64K      0  +0x0
+n1 (14.034 tok/s): 66 allocs, 5672 MiB; >=64MiB: 1; not 2MiB-aligned: 0 of 66; base 0x75a6d4000000
+   #0       5340.2 MiB  off2M  0.000  off64K      0  +0x0
+n2 (15.144 tok/s): 66 allocs, 5672 MiB; >=64MiB: 1; not 2MiB-aligned: 0 of 66; base 0x7ef916c00000
+   #0       5340.2 MiB  off2M  0.000  off64K      0  +0x0
