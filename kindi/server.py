@@ -88,7 +88,8 @@ class Kindi(object):
             cl_path = os.path.join(pack, "head_clusters.npz")
             if os.path.exists(cl_path):
                 clusters = dict(np.load(cl_path))
-            self.eng = make_engine(pack, ctx=cfg["ctx"], clusters=clusters, log=log)
+            from . import selfcheck             # KINDI_SELFCHECK_TPS: rebuild while decode is in the slow state (MI25)
+            self.eng = selfcheck.checked(lambda: make_engine(pack, ctx=cfg["ctx"], clusters=clusters, log=log), log)
             self.tok = Tok(self.eng.vocab, os.path.join(pack, "merges.txt"))
             self.runner = Runner(self.eng, cfg, self.pack_id, log, progress=self.busy)
             self.sample = Sampler(self.eng)

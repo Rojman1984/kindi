@@ -1,0 +1,51 @@
+### process 1 hold 64 MiB 19:13:39
+build 1: load 16.0s  selfcheck(pos0) 15.16  decode@512 15.150  free before build 16352 MiB
+build 2: load 6.2s  selfcheck(pos0) 15.15  decode@512 15.142  free before build 16106 MiB
+build 3: load 6.3s  selfcheck(pos0) 15.15  decode@512 15.148  free before build 16042 MiB
+build 4: load 6.2s  selfcheck(pos0) 15.15  decode@512 15.140  free before build 16042 MiB
+### process 2 hold 64 MiB 19:15:17
+build 1: load 16.0s  selfcheck(pos0) 14.20  decode@512 14.041  free before build 16352 MiB
+build 2: load 6.3s  selfcheck(pos0) 14.14  decode@512 14.027  free before build 16106 MiB
+build 3: load 6.5s  selfcheck(pos0) 14.19  decode@512 14.049  free before build 16042 MiB
+build 4: load 6.4s  selfcheck(pos0) 14.15  decode@512 14.047  free before build 16042 MiB
+### process 3 hold 64 MiB 19:16:58
+build 1: load 16.1s  selfcheck(pos0) 15.15  decode@512 15.148  free before build 16352 MiB
+build 2: load 6.4s  selfcheck(pos0) 15.15  decode@512 15.149  free before build 16106 MiB
+build 3: load 6.2s  selfcheck(pos0) 15.15  decode@512 15.149  free before build 16042 MiB
+build 4: load 6.2s  selfcheck(pos0) 15.15  decode@512 15.149  free before build 16042 MiB
+### process 4 hold 64 MiB 19:18:36
+build 1: load 16.2s  selfcheck(pos0) 14.23  decode@512 14.083  free before build 16352 MiB
+build 2: load 6.5s  selfcheck(pos0) 14.18  decode@512 14.072  free before build 16106 MiB
+build 3: load 6.3s  selfcheck(pos0) 14.17  decode@512 14.072  free before build 16042 MiB
+build 4: load 6.3s  selfcheck(pos0) 14.16  decode@512 14.062  free before build 16042 MiB
+### process 5 hold 64 MiB 19:20:16
+build 1: load 16.0s  selfcheck(pos0) 15.15  decode@512 15.145  free before build 16352 MiB
+build 2: load 6.4s  selfcheck(pos0) 15.15  decode@512 15.134  free before build 16106 MiB
+build 3: load 6.3s  selfcheck(pos0) 15.15  decode@512 15.134  free before build 16042 MiB
+build 4: load 6.3s  selfcheck(pos0) 15.15  decode@512 15.147  free before build 16042 MiB
+### process 6 hold 1024 MiB 19:21:54
+build 1: load 16.0s  selfcheck(pos0) 14.20  decode@512 14.076  free before build 16352 MiB
+build 2: load 6.3s  selfcheck(pos0) 14.16  decode@512 14.071  free before build 15146 MiB
+build 3: load 6.4s  selfcheck(pos0) 14.16  decode@512 14.039  free before build 14122 MiB
+build 4: load 6.3s  selfcheck(pos0) 14.16  decode@512 14.089  free before build 14122 MiB
+### process 7 hold 1024 MiB 19:23:35
+build 1: load 16.0s  selfcheck(pos0) 14.21  decode@512 14.115  free before build 16352 MiB
+build 2: load 6.4s  selfcheck(pos0) 14.17  decode@512 14.076  free before build 15146 MiB
+build 3: load 6.2s  selfcheck(pos0) 14.17  decode@512 14.008  free before build 14122 MiB
+build 4: load 6.4s  selfcheck(pos0) 14.21  decode@512 14.099  free before build 14122 MiB
+### process 8 hold 1024 MiB 19:25:15
+build 1: load 16.1s  selfcheck(pos0) 15.15  decode@512 15.146  free before build 16352 MiB
+build 2: load 6.4s  selfcheck(pos0) 15.15  decode@512 15.148  free before build 15146 MiB
+build 3: load 6.3s  selfcheck(pos0) 15.15  decode@512 15.150  free before build 14122 MiB
+build 4: load 6.2s  selfcheck(pos0) 15.15  decode@512 15.123  free before build 14122 MiB
+### process 9 hold 1024 MiB 19:26:53
+build 1: load 16.0s  selfcheck(pos0) 15.15  decode@512 15.149  free before build 16352 MiB
+build 2: load 6.2s  selfcheck(pos0) 15.15  decode@512 15.139  free before build 15146 MiB
+build 3: load 6.3s  selfcheck(pos0) 15.15  decode@512 15.138  free before build 14122 MiB
+build 4: load 6.2s  selfcheck(pos0) 15.16  decode@512 15.128  free before build 14122 MiB
+### process 10 hold 1024 MiB 19:28:31
+build 1: load 16.0s  selfcheck(pos0) 14.18  decode@512 14.089  free before build 16352 MiB
+build 2: load 6.5s  selfcheck(pos0) 14.19  decode@512 14.060  free before build 15146 MiB
+build 3: load 6.3s  selfcheck(pos0) 14.17  decode@512 14.056  free before build 14122 MiB
+build 4: load 6.3s  selfcheck(pos0) 14.20  decode@512 14.041  free before build 14122 MiB
+### done Sun Nov  1 07:30:10 PM CST 2026
